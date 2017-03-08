@@ -1,4 +1,7 @@
 'use strict';
+var fs = require('fs');
+var path = require('path');
+
 
 module.exports = function(content,file,conf){
   var result = '';
@@ -9,28 +12,10 @@ module.exports = function(content,file,conf){
   var regrequirestyle = /{%require.*(scss|css|less).*?%}/g;
   var regjs = /".*"/g;
   var regstyle= /".*(scss|css|less)"/g;
-  // var scssstyles = [];
-  // var cssstyles = [];
   var requirearr = [];
   var requirestylearr = [];
   var jsarr = [];
   var stylearr = [];
-
-  // if(content.match(regscss)){
-  //   scssstyles = content.match(regscss);
-  //   for(var i=0;i<scssstyles.length;i++){
-  //     scssstyles[i] = scssstyles[i].replace(".scss",".scss");
-  //   }
-  //   content = content.replace(regscss,'');
-  // }
-  //
-  // if(content.match(regcss)){
-  //   cssstyles = content.match(regscss);
-  //   for(var i=0;i<scssstyles.length;i++){
-  //     cssstyles[i] = cssstyles[i].replace(".css",".css");
-  //   }
-  //   content = content.replace(regcss,'');
-  // }
 
   if(content.match(regrequirestyle)){
     requirestylearr = content.match(regrequirestyle);
@@ -47,15 +32,19 @@ module.exports = function(content,file,conf){
     content = content.replace(regrequire,'');
   }
 
+  var title = file.title ? `<title>${file.title}</title>` : '';
   var depZepto = file.depZepto ? `<script type="text/javascript" src="${file.depZepto}?__inline"></script>`: '';
   var dace = file.dace ? `<script type="text/javascript" src="${file.dace}"></script>`: '';
   var ismod = file.ismod ? `<script type="text/javascript" src="${file.ismod}?__inline"></script>`: '';
-  var commoncss = file.commoncss ? `<link rel="stylesheet" href="${file.commoncss}?__inline" type="text/css" />` : '';
+  var commoncss = file.commoncss ? `<link rel="stylesheet" type="text/css" href="${file.commoncss}?__inline"  />` : '';
   var flexible = !file.flexible ? '<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">' : `<script type="text/javascript" src="${flexible}">`;
 
-  result = `<!DOCTYPE>
-            <html>
+  result = `<!DOCTYPE html>
+              <html lang="zh_CN">
               <head>
+                <meta charset="utf-8">
+                <meta name="format-detection" content="telephone=no,email=no,address=no">
+                ${title}
                 ${flexible}<!--ignore-->
                 ${commoncss}<!--ignore-->
                 ${stylearr.join('')}
@@ -66,8 +55,8 @@ module.exports = function(content,file,conf){
                 ${file.wrapperId ? `<div id="${file.wrapperId}">` : ``}
                 ${content.replace(reg,'')}
                 ${file.wrapperId ? `</div>` : ``}
-                ${jsarr.join('')}
                 ${dace}
+                ${jsarr.join('')}
               </body>
            </html>`;
   return result;
