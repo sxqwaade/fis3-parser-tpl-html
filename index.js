@@ -44,6 +44,7 @@ module.exports = function(content,file,conf){
               <head>
                 <meta charset="utf-8">
                 <meta name="format-detection" content="telephone=no,email=no,address=no">
+                ${file.meta ? file.meta.join('') : ``}
                 ${title}
                 ${flexible}<!--ignore-->
                 ${commoncss}<!--ignore-->
