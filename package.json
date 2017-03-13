@@ -1,6 +1,6 @@
 {
    "name":"fis3-parser-tpl-html",
-   "version":"0.1.4",
+   "version":"0.1.5",
    "repository": {
      "type": "git",
      "url": "git+https://github.com/sxqwaade/fis3-parser-tpl-html.git"
