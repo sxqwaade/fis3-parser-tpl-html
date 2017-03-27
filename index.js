@@ -37,7 +37,7 @@ module.exports = function(content,file,conf){
   var dace = file.dace ? `<script type="text/javascript" src="${file.dace}"></script>`: '';
   var ismod = file.ismod ? `<script type="text/javascript" src="${file.ismod}?__inline"></script>`: '';
   var commoncss = file.commoncss ? `<link rel="stylesheet" type="text/css" href="${file.commoncss}?__inline"  />` : '';
-  var flexible = !file.flexible ? '<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">' : `<script type="text/javascript" src="${flexible}">`;
+  var flexible = !file.flexible ? '<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">' : `<script type="text/javascript" src="${file.flexible}?__inline"></script>`;
   var commonjs = file.commonjs ? `<script type="text/javascript" src="${file.commonjs}?__inline"></script>`: '';
   var jockey = file.jockey ? `<script type="text/javascript" src="${file.jockey}?__inline"></script>`: '';
 
@@ -50,10 +50,10 @@ module.exports = function(content,file,conf){
                 ${title}
                 ${flexible}<!--ignore-->
                 ${commonjs}<!--ignore-->
-                ${jockey}<!--ignore-->
                 ${commoncss}<!--ignore-->
                 ${stylearr.join('')}
                 ${depZepto}<!--ignore-->
+                ${jockey}<!--ignore-->
                 ${ismod}<!--ignore-->
               </head>
               <body>
