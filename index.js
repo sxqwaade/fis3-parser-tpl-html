@@ -40,7 +40,18 @@ module.exports = function(content,file,conf){
   var flexible = !file.flexible ? '<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">' : `<script type="text/javascript" src="${file.flexible}?__inline"></script>`;
   var commonjs = file.commonjs ? `<script type="text/javascript" src="${file.commonjs}?__inline"></script>`: '';
   var jockey = file.jockey ? `<script type="text/javascript" src="${file.jockey}?__inline"></script>`: '';
-
+  var inlineScript = [];
+  if(file.inlineScript){
+    if(typeof file.inline != "undefined" && !file.inline){
+        file.inlineScript.forEach(function(val){
+          inlineScript.push(`<script type="text/javascript" src="${val}"></script>`);
+        });
+    }else{
+        file.inlineScript.forEach(function(val){
+          inlineScript.push(`<script type="text/javascript" src="${val}?__inline"></script>`);
+        });
+    }
+  }
   result = `<!DOCTYPE html>
               <html lang="zh_CN">
               <head>
@@ -62,6 +73,7 @@ module.exports = function(content,file,conf){
                 ${file.wrapperId ? `</div>` : ``}
                 ${dace}
                 ${jsarr.join('')}
+                ${inlineScript.join('')}
               </body>
            </html>`;
   return result;
