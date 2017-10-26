@@ -41,16 +41,16 @@ module.exports = function(content,file,conf){
   var commonjs = file.commonjs ? `<script type="text/javascript" src="${file.commonjs}?__inline"></script>`: '';
   var jockey = file.jockey ? `<script type="text/javascript" src="${file.jockey}?__inline"></script>`: '';
   var inlineScript = [];
+  var inlineCss = [];
   if(file.inlineScript){
-    if(typeof file.inline != "undefined" && !file.inline){
-        file.inlineScript.forEach(function(val){
-          inlineScript.push(`<script type="text/javascript" src="${val}"></script>`);
-        });
-    }else{
-        file.inlineScript.forEach(function(val){
-          inlineScript.push(`<script type="text/javascript" src="${val}?__inline"></script>`);
-        });
-    }
+    file.inlineScript.forEach(function(val){
+      inlineScript.push(`<script type="text/javascript" src="${val}?__inline"></script>`);
+    });
+  }
+  if(file.inlineCss){
+    file.inlineCss.forEach(function(val){
+      inlineCss.push(`<link type="text/css" rel="stylesheet" href="${val}?__inline" />`);
+    });
   }
   result = `<!DOCTYPE html>
               <html lang="zh_CN">
@@ -74,6 +74,7 @@ module.exports = function(content,file,conf){
                 ${dace}
                 ${jsarr.join('')}
                 ${inlineScript.join('')}
+                ${inlineCss.join('')}
               </body>
            </html>`;
   return result;
