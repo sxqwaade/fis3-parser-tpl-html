@@ -87,6 +87,5 @@ module.exports = function(content,file,conf){
                 ${inlineCss.join('')}
               </body>
            </html>`;
-  console.log(result);
   return result;
 }
