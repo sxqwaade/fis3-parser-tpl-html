@@ -1,7 +1,15 @@
+/**
+ * @Author: songxiaoqiang
+ * @Date:   2017-05-31T17:35:54+08:00
+ * @Last modified by:   songxiaoqiang
+ * @Last modified time: 2017-06-12T11:50:09+08:00
+ */
+
+
+
 'use strict';
 var fs = require('fs');
 var path = require('path');
-
 
 module.exports = function(content,file,conf){
   var result = '';
@@ -11,7 +19,7 @@ module.exports = function(content,file,conf){
   var regrequire = /{%require.*js.*?%}/g;
   var regrequirestyle = /{%require.*(scss|css|less).*?%}/g;
   var regjs = /".*"/g;
-  var regstyle= /".*(scss|css|less)"/g;
+  var regstyle= /".*(scss|css|less)/g;
   var requirearr = [];
   var requirestylearr = [];
   var jsarr = [];
@@ -20,14 +28,16 @@ module.exports = function(content,file,conf){
   if(content.match(regrequirestyle)){
     requirestylearr = content.match(regrequirestyle);
     for(var i=0;i<requirestylearr.length;i++){
-      stylearr[i] = `<link type="text/css" rel="stylesheet" href=${requirestylearr[i].match(regstyle)[0]} />`;
+      //console.log(requirestylearr[i].match(regstyle)[0])
+      stylearr[i] = `<link type="text/css" rel="stylesheet" href=${requirestylearr[i].match(regstyle)[0]}?__inline" />`;
     }
     content = content.replace(regrequirestyle,'');
   }
   if(content.match(regrequire)){
     requirearr = content.match(regrequire);
     for(var i=0;i<requirearr.length;i++){
-      jsarr[i] = `<script type="text/javascript" src=${requirearr[i].match(regjs)[0]}></script>`;
+      //console.log(requirearr[i].match(regjs)[0])
+      jsarr[i] = `<script type="text/javascript" src=${requirearr[i].match(regjs)[0].slice(0,-1)}?__inline"></script>`;
     }
     content = content.replace(regrequire,'');
   }
@@ -76,5 +86,6 @@ module.exports = function(content,file,conf){
                 ${inlineScript.join('')}
               </body>
            </html>`;
+  console.log(result);
   return result;
 }
